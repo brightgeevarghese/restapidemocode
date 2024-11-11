@@ -8,6 +8,7 @@ import edu.miu.cse.restfuldemo.repository.UserRepository;
 import edu.miu.cse.restfuldemo.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -80,5 +81,18 @@ public class UserSericeImpl implements UserService {
             return Optional.of(new UserResponseDto(savedUser.getUsername()));
         }
         throw new UserNotFoundException(username + " is not found.");
+    }
+
+    @Override
+    @Transactional
+    public void deleteUserByUsername(String username) {
+//        userRepository.findUserByUsername(username).ifPresent(user -> {
+//            userRepository.delete(user);
+//        });
+        findByUsername(username).ifPresent(user -> {
+            userRepository.deleteUserByUsername(username);
+//            User user1 = userRepository.findUserByUsername(username).orElse(null);
+//            userRepository.delete();
+        });
     }
 }

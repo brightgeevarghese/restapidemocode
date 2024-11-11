@@ -68,4 +68,10 @@ public class UserController {
         Optional<UserResponseDto> userResponseDto = userService.updateUserPartially(username, userRequestDto);
         return ResponseEntity.status(HttpStatus.OK).body(userResponseDto.get());
     }
+
+    @DeleteMapping("{username}")
+    public ResponseEntity<Void> deleteUser(@PathVariable String username) {
+        userService.deleteUserByUsername(username);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
 }
