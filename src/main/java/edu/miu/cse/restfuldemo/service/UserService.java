@@ -10,6 +10,8 @@ import java.util.Optional;
 
 public interface UserService {
     Optional<UserResponseDto> createUser(UserRequestDto userRequestDto);
-    Optional<UserResponseDto> findByUsername(String username) throws UserNotFoundException;
+    Optional<UserResponseDto> findByUsername(String username);
     List<UserResponseDto> findAllUsers();
+    Optional<UserResponseDto> updateUser(String username, UserRequestDto userRequestDto);
+    Optional<UserResponseDto> updateUserPartially(String username, UserRequestDto userRequestDto);
 }

@@ -9,6 +9,7 @@ import edu.miu.cse.restfuldemo.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,17 +30,23 @@ public class UserSericeImpl implements UserService {
     }
 
     @Override
-    public Optional<UserResponseDto> findByUsername(String username) throws UserNotFoundException {
-//        Optional<User> foundUser = userRepository.findUserByUsername(username);
-//        if (foundUser.isPresent()) {
-//            UserResponseDto userResponseDto = new UserResponseDto(foundUser.get().getUsername());
-//            return Optional.of(userResponseDto);
-//        }
+    public Optional<UserResponseDto> findByUsername(String username) {
+        Optional<User> foundUser = userRepository.findUserByUsername(username);
+        if (foundUser.isPresent()) {
+            UserResponseDto userResponseDto = new UserResponseDto(foundUser.get().getUsername());
+            return Optional.of(userResponseDto);
+        }
         throw new UserNotFoundException(username + " is not found.");
     }
 
     @Override
     public List<UserResponseDto> findAllUsers() {
-        return List.of();
+        List<User> users = userRepository.findAll();
+        List<UserResponseDto> userResponseDtos = new ArrayList<>();
+        for (User user : users) {
+            UserResponseDto userResponseDto = new UserResponseDto(user.getUsername());
+            userResponseDtos.add(userResponseDto);
+        }
+        return userResponseDtos;
     }
 }
