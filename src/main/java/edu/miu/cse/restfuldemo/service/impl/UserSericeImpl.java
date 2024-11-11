@@ -49,4 +49,36 @@ public class UserSericeImpl implements UserService {
         }
         return userResponseDtos;
     }
+
+    @Override
+    public Optional<UserResponseDto> updateUser(String username, UserRequestDto userRequestDto) {
+        //find the user
+        Optional<User> foundUser = userRepository.findUserByUsername(username);
+        if (foundUser.isPresent()) {
+            User user = foundUser.get();
+            user.setUsername(userRequestDto.username());
+            user.setPassword(userRequestDto.password());
+            //save the modified user in db
+            User savedUser = userRepository.save(user);
+            return Optional.of(new UserResponseDto(savedUser.getUsername()));
+        }
+        throw new UserNotFoundException(username + " is not found.");
+    }
+
+    @Override
+    public Optional<UserResponseDto> updateUserPartially(String username, UserRequestDto userRequestDto) {
+        Optional<User> foundUser = userRepository.findUserByUsername(username);
+        if (foundUser.isPresent()) {
+            User user = foundUser.get();
+            if (userRequestDto.username() != null) {
+                user.setUsername(userRequestDto.username());
+            }
+            if (userRequestDto.password() != null) {
+                user.setPassword(userRequestDto.password());
+            }
+            User savedUser = userRepository.save(user);
+            return Optional.of(new UserResponseDto(savedUser.getUsername()));
+        }
+        throw new UserNotFoundException(username + " is not found.");
+    }
 }
