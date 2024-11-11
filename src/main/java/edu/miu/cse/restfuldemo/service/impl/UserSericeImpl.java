@@ -2,6 +2,7 @@ package edu.miu.cse.restfuldemo.service.impl;
 
 import edu.miu.cse.restfuldemo.dto.request.UserRequestDto;
 import edu.miu.cse.restfuldemo.dto.response.UserResponseDto;
+import edu.miu.cse.restfuldemo.exception.user.UserNotFoundException;
 import edu.miu.cse.restfuldemo.model.User;
 import edu.miu.cse.restfuldemo.repository.UserRepository;
 import edu.miu.cse.restfuldemo.service.UserService;
@@ -28,8 +29,13 @@ public class UserSericeImpl implements UserService {
     }
 
     @Override
-    public Optional<UserResponseDto> findByUsername(String username) {
-        return Optional.empty();
+    public Optional<UserResponseDto> findByUsername(String username) throws UserNotFoundException {
+//        Optional<User> foundUser = userRepository.findUserByUsername(username);
+//        if (foundUser.isPresent()) {
+//            UserResponseDto userResponseDto = new UserResponseDto(foundUser.get().getUsername());
+//            return Optional.of(userResponseDto);
+//        }
+        throw new UserNotFoundException(username + " is not found.");
     }
 
     @Override
