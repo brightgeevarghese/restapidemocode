@@ -50,4 +50,22 @@ public class UserController {
         List<UserResponseDto> userResponseDtos = userService.findAllUsers();
         return ResponseEntity.status(HttpStatus.OK).body(userResponseDtos);
     }
+
+    @PutMapping("/{username}")//api/v1/users/username
+    public ResponseEntity<UserResponseDto> updateUser(
+            @PathVariable String username,
+            @RequestBody @Valid UserRequestDto userRequestDto
+    ) {
+        Optional<UserResponseDto> userResponseDto = userService.updateUser(username, userRequestDto);
+        return ResponseEntity.status(HttpStatus.OK).body(userResponseDto.get());
+    }
+
+    @PatchMapping("/{username}")//api/v1/users/username
+    public ResponseEntity<UserResponseDto> updateUserPartially(
+            @PathVariable String username,
+            @RequestBody UserRequestDto userRequestDto
+    ) {
+        Optional<UserResponseDto> userResponseDto = userService.updateUserPartially(username, userRequestDto);
+        return ResponseEntity.status(HttpStatus.OK).body(userResponseDto.get());
+    }
 }
